@@ -1,5 +1,26 @@
 require 'spec_helper'
 
+describe User do 
+
+  before do 
+    @user = User.new(name: "Example user", email: "user@example.com", password:  "foobar",
+                      password_confirmation: "foobar")
+                    end
+  subject { @user }
+
+  describe "remember token" do 
+    before { @user.save}
+    its(:remember_token) {should_not be_blank}
+  end
+  
+
+
+  it {should respond_to(:password_confirmation)}
+  it {should respond_to(:remember_token)}
+  it {should respond_to(:authentication)}
+
+end
+
 describe "UserPages" do
 
 	subject {page}
@@ -7,7 +28,6 @@ describe "UserPages" do
 	describe "profile page" do 
 		let(:user) {FactoryGirl.create(:user)}
 		before {visit user_path(user)}
-
 		it { should have_selector('h1', text: user.name)}
 		it { should have_seletcor('title', text:user.name)}
 	end
@@ -40,5 +60,7 @@ describe "UserPages" do
   			expect {click_button submit}.to change(User, :count).by(1)
   		end
   	end
+
+
   end
 
