@@ -29,7 +29,7 @@ describe "UserPages" do
 		let(:user) {FactoryGirl.create(:user)}
 		before {visit user_path(user)}
 		it { should have_selector('h1', text: user.name)}
-		it { should have_seletcor('title', text:user.name)}
+		it { should have_selector('title', text:user.name)}
 	end
 
   
@@ -44,17 +44,26 @@ describe "UserPages" do
   
   	describe "with invalid information " do 
   		it "should not create a user" do 
-  			expect {click_button submit }.not_to change(User, :count)
+  			expect {click_button submit }.not_to_change(User, :count)
   		end
   	end
 
   	describe "with valid information" do
   		before do 
-  			fill_in "Name", with: "exmaple User"
-  			fill_in "Email", with: "user@example.com"
+  			fill_in "Name", with: "Tony Xie"
+  			fill_in "Email", with: "txie@gmail.com"
   			fill_in "Password", with: "foobar"
   			fill_in "Confirmation", with: "foobar"
   		end
+
+      describe "with valid information" do 
+
+        describe "after saving the user" do 
+
+          it {should have_link('Sign out')}
+        end
+        
+      end
 
   		it "should create a user" do
   			expect {click_button submit}.to change(User, :count).by(1)
