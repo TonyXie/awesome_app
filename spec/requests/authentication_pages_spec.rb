@@ -13,9 +13,10 @@ describe "AuthenticationPages" do
   	it {should have_selector('h1', text: 'Sign in')}
   	it {should have_selector('title', text: 'Sign in')}
   	end
+  end
 
   describe "after visiting another page" do 
-    before { click_link "Home" }
+    before { click_path "Home" }
     it { should_not have_selector('div.alert.alert-error') }
   end
 
@@ -72,18 +73,27 @@ describe "AuthenticationPages" do
               end
             end
 
-        describe "for non-signed-in users" do 
-          let(:user) {FactoryGirl.create(:user)}
-
           describe "in the Users controller" do 
 
-            describe "visiting the edit page" do 
+          describe "visiting the edit page" do 
               before { visit edit_user_path(user)}
               it {should have_selector('title', text: 'Sign in')}
-            end
+          end
 
-            describe "submitting to the update action" do 
+          describe "submitting to the update action" do 
               before {put user_path(user)}
+              specify {response.should redirect_to(signin_path)}
+          end
+
+          describe "in the Microposts controller" do 
+
+            describe "submitting to the create action" do 
+              before {post microposts_path}
+              specify {response.should redirect_to(signin_path)}
+            end
+            
+            describe "submitting to the destroy action " do 
+              before {delete micropost_path(FactoryGirl.create(:micropost))}
               specify {response.should redirect_to(signin_path)}
             end
           end
@@ -107,3 +117,4 @@ describe "AuthenticationPages" do
     end
   end
 end
+
