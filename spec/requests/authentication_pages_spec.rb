@@ -23,8 +23,8 @@ describe "AuthenticationPages" do
   describe "with valid information" do 
   	let(:user) { FactoryGirl.create (:user)}
   	before do 
-  		fill_in "Email", with: user.email 
-  		fill_in "Password", with: user.password
+  		fill_in "session_email", with: user.email 
+  		fill_in "session_password", with: user.password
   		click_button "Sign in"
   	end
 
@@ -95,6 +95,16 @@ describe "AuthenticationPages" do
             describe "submitting to the destroy action " do 
               before {delete micropost_path(FactoryGirl.create(:micropost))}
               specify {response.should redirect_to(signin_path)}
+            end
+
+            describe "visiting the following page" do 
+              before {visit following_user_path(user)}
+              it {should have_selector('title', text: 'Sign in')}
+            end
+
+            describe "visiting the followers page" do 
+              before {visit followers_user_path(user)}
+              it {should have_selector('title', text: 'Sign in')}
             end
           end
         end
