@@ -1,4 +1,9 @@
 <title><%= full_title(yield(:title)) %></title>
 <h1>Contact
-	<p>contact me at ... nah don't</p>
+    <p>why don't you give your number, and I'll call you maybe</p>
+    <p><%= telephone_field(:user, :phone) %></p>
+    <p><%= submit_tag "give me!" %></p>
+
+<ul>why are you contacting me?</ul>
+<%= select_tag(:inquiry_id, options_for_select([["coffee", 1 ], ["business inquiry", 2], ["feedback", 3], ["for the lulz", 4]])) %>
 </h1>

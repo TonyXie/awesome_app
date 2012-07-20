@@ -18,8 +18,17 @@
       <%= f.label :password_confirmation, "Confirm Password" %>
       <%= f.password_field :password_confirmation %>
 
+       <%= f.file_field :picture %>
+
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>
+
+  <p>Birth year</p>
+  <%= select_year(Time.now) %>
+  <p>Birth month</p>
+  <%= select_month(Time.now) %>
+  <p>Birth day</p>
+  <%= select_day(Time.now) %>
 
     <%= gravatar_for @user %>
     <a href="http://gravatar.com/emails">change</a>
