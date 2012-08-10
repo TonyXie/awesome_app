@@ -2,9 +2,14 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_filter :correct_user, only: [:edit, :update]
   before_filter :admin_user,  only: :destroy 
+  respond_to :html, :xml, :json
 
   def new
+    if signed_in?
+      redirect_to users_path(@user)
+    else
   	@user = User.new
+  end
   end
 
   def show 
@@ -13,6 +18,9 @@ class UsersController < ApplicationController
   end
 
   def create 
+    if signed_in?
+      redirect_to users_path
+    end
   	@user = User.new(params[:user])
   	if @user.save 
       sign_in @user 
@@ -48,6 +56,7 @@ class UsersController < ApplicationController
 
   def index 
     @users = User.paginate(page: params[:page])
+    respond_with(@users)
   end
 
   def update 
